@@ -1,5 +1,6 @@
 # Links to current versions of documents
 
+- [Github Repo](https://github.com/COS420-Fall24/TeamC)
 
 - [Team Drive](https://drive.google.com/drive/folders/0AOUy1Zpmk9L4Uk9PVA)
 
@@ -17,4 +18,6 @@
 
 - [Sprint Review](https://docs.google.com/document/d/1fxsp8mRxlfj9EmasRE5E0Dg6q6nh2D3V/edit)
 
-- [SRS Document](https://docs.google.com/document/d/1DPvSdNfdSO_EhUP5Bsoiy6K8FgiVAzsW/edit)
+- [Software Requirements Specification (SRS)](https://docs.google.com/document/d/1DPvSdNfdSO_EhUP5Bsoiy6K8FgiVAzsW/edit)
+
+- Issue/Task Management Software
