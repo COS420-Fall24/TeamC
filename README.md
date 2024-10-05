@@ -1,20 +1,19 @@
 # Creative Team Name
 
-Members:
+## Members:
 
-Jayden LeCorps - Project Manager
+- Jayden LeCorps - Project Manager
 
-Joshua Lopez - Designer
+- Joshua Lopez - Designer
 
-Sean Whynot - Developer
+- Sean Whynot - Developer
 
-Ben Yandell - Developer
+- Ben Yandell - Developer
 
-Nathan Green - Developer
+- Nathan Green - Developer
 
-# Mission statement
+## Mission statement
 It's not a bug, it's a feature.
 
-# Problem statements
+## Installation and build process
 
-https://docs.google.com/document/d/179aVQiX8QkYvXwdKPGWxlZd18Lmv2WRon3H6-5FOOxY/edit?usp=sharing
