@@ -4,7 +4,12 @@ import React from "react";
 
 export const SidebarData = [
     {
-        name: "Home"
+        name: "Home",
+        url: "/"
+    },
+    {
+        name: "Login",
+        url: "/login"
     },
     {
         name: "Presets"
