@@ -11,12 +11,13 @@ function Sidebar() {
 
                 return( 
                     
+                    <Link className = "SidebarLink" to = {val.url}>
                     <li key={key} className="row">
-                        <Link className = "SidebarLink" to = {val.url}>
+                        
                             <div id="name">{val.name}</div>
-                        </Link>
+                        
                     </li>
-                   
+                    </Link>
                     
                 )
                 
