@@ -1,11 +1,19 @@
 import './App.css';
-import Sidebar from './Components/Sidebar';
+
+import React from "react";
+import {HashRouter as Router, Routes, Route} from "react-router-dom";
+import {Login} from "./Pages/login";
+import {Home} from "./Pages/home"
+
 
 function App() {
   return (
-    <div className="App">
-      <Sidebar/>
-    </div>
+    <Router>
+      <Routes>
+        <Route path = "/" element = {<Home/>}/>
+        <Route path = "/login" element = {<Login/>}/>
+      </Routes>
+    </Router>
   );
 }
 
