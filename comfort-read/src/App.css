@@ -1,38 +1,110 @@
 .App {
   text-align: center;
+  background-color: #ffffff;
+  width:100%;
+  height:100%;
+  display:flex;
+  position:absolute;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.content{
+  margin:0;
+  padding:0;
+  border:0;
+  width:100%;
+  height:100%;
+  background:#ffffff;
+  text-align: center;
+  flex:1;
+  flex-grow:1;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+#login_container{
+  text-align: center;
+  border: 5px solid #62a488;
+  background:#62a488;
+  color:white;
+  border-radius:10px;
+  padding:10px;
+  margin:auto;
+  width:50%;
+  height:50%;
+  padding-top:50px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#username, #password{
+  
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.Sidebar {
+  margin:0;
+  padding:0;
+  top:0;
+  left:0;
+  height: 100%;
+  width: 25%;
+  background-color: #62a488;
+}
+
+.SidebarLink{
+  color:white;
+  text-decoration: none;
+}
+
+.SidebarList {
+  height: auto;
+  margin:0;
+  padding: 0;
+  width: 100%;
+  
+}
+
+.SidebarList .row:hover {
+  cursor: pointer;
+  background-color: #62a488;
+}
+
+.SidebarList .row {
+  height: 50px;
+  width: 100%;
+  border: 1px solid black;
+  list-style-type: none;
+  margin: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  color: white;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.App-link {
-  color: #61dafb;
+.row #name {
+  flex: 70%;
+  display: grid;
+  place-items: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.Navbar{
+  top:0;
+  width:100%;
+  height:5%;
+  position: absolute;
+  background:black;
+  color:white;
+  top:0;
+  padding:0;
+  margin:0;
+  overflow: hidden;
+}
+
+.NavbarItem{
+  color:white;
+  float:left;
+  padding:5px;
 }
