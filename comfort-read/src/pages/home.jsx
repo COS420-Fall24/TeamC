@@ -1,6 +1,5 @@
-import logo from './../logo.svg';
 import './../App.css';
-import Sidebar from './../Components/Sidebar';
+import Sidebar from '../Components/Sidebar';
 import React from "react";
 import {Link} from "react-router-dom";
 export function Home(){

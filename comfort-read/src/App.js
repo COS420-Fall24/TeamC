@@ -1,10 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
 
 import React from "react";
 import {HashRouter as Router, Routes, Route} from "react-router-dom";
-import {Login} from "./pages/login";
-import {Home} from "./pages/home"
+import {Login} from "./Pages/login";
+import {Home} from "./Pages/home"
 
 
 function App() {
