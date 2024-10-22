@@ -1,5 +1,6 @@
 import './../App.css';
 import Sidebar from '../Components/Sidebar';
+import UserInput from '../Components/UserInput';
 import React from "react";
 import {Link} from "react-router-dom";
 export function Home(){
@@ -10,9 +11,9 @@ export function Home(){
         <Sidebar></Sidebar>
         
         <div className = "content">
-            <div>
-                <h1>ComfortRead Home Page</h1>
-            </div>
+            <h1>ComfortRead Home Page</h1>
+            
+            <UserInput></UserInput>
         </div>  
     </div>
     
