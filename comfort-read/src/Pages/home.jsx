@@ -9,25 +9,16 @@ import {useContext} from 'react';
 
 
 export function Home(){
-    const {darkMode, toggleDarkMode} = useContext(DarkModeContext);
-
-    var cname = "light";
-
-    if(darkMode === true){
-        cname = "dark";
-    }
-
-    console.log("working?:" + darkMode);
-    
+    const {theme} = useContext(DarkModeContext);
 
     return (
         
         <>
     
-    <div className="App">
+    <div id="App" className = {theme}>
         <Sidebar></Sidebar>
         
-        <div id = "content" className = {cname}>
+        <div id = "content">
             <h1>ComfortRead Home Page</h1>
             
             <UserInput></UserInput>

@@ -3,12 +3,17 @@ import './../App.css';
 import React from "react";
 import {Link} from "react-router-dom";
 import Sidebar from '../Components/Sidebar';
+import { DarkModeContext } from '../Context/DarkModeContext';
+import { useContext } from 'react';
 
 export function Login(){
+    const {theme} = useContext(DarkModeContext);
+
     return (
+        
         <>
 
-    <div className="App">
+    <div id="App" class = {theme}>
         <Sidebar></Sidebar>
 
         <div id = "login_container">
