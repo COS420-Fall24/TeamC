@@ -6,13 +6,13 @@ import {useContext} from 'react';
 import { DarkModeContext } from "../Context/DarkModeContext";
 
 function Sidebar() {
-    const {darkMode, toggleDarkMode} = useContext(DarkModeContext);
+    const {toggleDarkMode} = useContext(DarkModeContext);
 
     return (
         <div className="Sidebar">
             <ul className="SidebarList">
             {SidebarData.map((val, key)=> {
-
+                
                 return( 
                     
                     <Link className = "SidebarLink" to = {val.url}>
