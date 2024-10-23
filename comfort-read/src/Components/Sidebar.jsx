@@ -2,8 +2,12 @@ import React from "react";
 import "../App.css";
 import { SidebarData } from "./SidebarData";
 import { Link } from "react-router-dom";
+import {useContext} from 'react';
+import { DarkModeContext } from "../Context/DarkModeContext";
 
 function Sidebar() {
+    const {darkMode, toggleDarkMode} = useContext(DarkModeContext);
+
     return (
         <div className="Sidebar">
             <ul className="SidebarList">
@@ -23,6 +27,10 @@ function Sidebar() {
                 
     
             })}
+            
+            <li key = "mode" className = "row">
+                <div id = "name" onClick={toggleDarkMode}>Toggle Dark Mode</div>
+            </li>
             </ul>
         </div>
     );
