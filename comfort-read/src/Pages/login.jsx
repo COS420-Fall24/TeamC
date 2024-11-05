@@ -13,10 +13,10 @@ export function Login(){
         
         <>
 
-    <div id="App" class = {theme}>
+    <div id="App" class = {theme} data-testid="App">
         <Sidebar></Sidebar>
 
-        <div id = "login_container">
+        <div id = "login_container" data-testid = "login-form">
             <form>
                 <label for="username">Username: </label>
                 

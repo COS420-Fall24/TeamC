@@ -9,7 +9,7 @@ function Sidebar() {
     const {toggleDarkMode} = useContext(DarkModeContext);
 
     return (
-        <div className="Sidebar">
+        <div className="Sidebar" data-testid="sidebar">
             <ul className="SidebarList">
             {SidebarData.map((val, key)=> {
                 

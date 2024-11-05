@@ -15,7 +15,7 @@ export function Home(){
         
         <>
     
-    <div id="App" className = {theme}>
+    <div id="App" className = {theme} data-testid="App">
         <Sidebar></Sidebar>
         
         <div id = "content">
