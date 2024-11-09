@@ -116,3 +116,24 @@ body {
   float:left;
   padding:5px;
 }
+
+.OptionsMenu{
+  position:fixed;
+  background-color: transparent;
+  display: flex;
+}
+
+.OptionsMenuItem{
+  flex: 1;
+  border: 1px solid black;
+  padding: 20px;
+  display: flex;
+}
+
+#primaryTextBox{
+  position:relative;
+  height:200px;
+  width:80%;
+  margin: 50px;;
+
+}
