@@ -3,7 +3,7 @@ import React, {createContext, useState} from 'react';
 const DarkModeContext = createContext();
 
 function DarkModeProvider(props){
-    const [theme, setDarkMode] = useState("dark");
+    const [theme, setDarkMode] = useState("light");
 
     const toggleDarkMode = (dark) => {
         if(theme === "dark"){
