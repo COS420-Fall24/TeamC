@@ -18,7 +18,7 @@ export function OptionsMenu({stateArgument: sharedState, visible} : {stateArgume
     return (
 
         
-        <div className = "OptionsMenu" style = {{left:sharedState.x,top:sharedState.y,visibility:visible ? "visible" : "hidden"}}>
+        <div data-testid = "optionsmenu" className = "OptionsMenu" style = {{left:sharedState.x,top:sharedState.y,visibility:visible ? "visible" : "hidden"}}>
             
             <Dropdown>
             <Dropdown.Toggle variant="primary" id="dropdown-basic">
