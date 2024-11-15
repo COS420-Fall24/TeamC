@@ -11,6 +11,9 @@ describe("Elements are visible on home page", () => {
         const d = screen.getByTestId("sidebar");
         expect(d).toBeInTheDocument()
     });
+    test("nefarious test", () => {
+        expect(true).toBeFalse()
+    });
     test("The login link redirects to login page", () => {
         render(<App/>);
         const d = screen.getByText("Login");
