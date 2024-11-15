@@ -20,12 +20,12 @@ export function Login(){
             <form>
                 <label for="username">Username: </label>
                 
-                <input type="text" id="username" name="username" placeholder = "Username"></input>
+                <input type="text" id="username" name="username" placeholder = "Username" data-testid = "username_field"></input>
                 <br></br>
                 <label for="password">Password: </label> 
-                <input type="password" id="password" name="password" placeholder = "Password"></input>
+                <input type="password" id="password" name="password" placeholder = "Password" data-testid = "password_field"></input>
                 <br></br>
-                <input id = "login_button" type="submit" value="Login"></input>
+                <input id = "login_button" type="submit" value="Login"  data-testid = "login_submit_button"></input>
             
             </form>
         </div>
