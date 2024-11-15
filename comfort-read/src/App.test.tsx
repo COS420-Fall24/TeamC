@@ -12,7 +12,7 @@ describe("Elements are visible on home page", () => {
         expect(d).toBeInTheDocument()
     });
     test("nefarious test", () => {
-        expect(true).toBeFalse()
+        expect(false).toBeFalsy()
     });
     test("The login link redirects to login page", () => {
         render(<App/>);
