@@ -18,7 +18,7 @@ describe("Elements are visible on home page", () => {
         render(<App/>);
         const d = screen.getByText("Login");
         expect(d).toBeInTheDocument();
-        userEvent.click(d);
+        fireEvent.click(d);
         expect(window.location.href).toBe("http://localhost/#/login");
     });
     test("The dark mode button enables dark mode", () => {
