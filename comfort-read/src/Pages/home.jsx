@@ -5,6 +5,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import { DarkModeContext, DarkModeProvider } from '../Context/DarkModeContext';
 import {useContext} from 'react';
+import FormattedInput from '../Components/FormattedInput';
 
 
 
@@ -21,7 +22,8 @@ export function Home(){
         <div id = "content">
             <h1>ComfortRead Home Page</h1>
             
-            <UserInput></UserInput>
+            {/*<UserInput></UserInput>*/}
+            <FormattedInput></FormattedInput>
         </div>  
     </div>
     
