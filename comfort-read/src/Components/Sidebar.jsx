@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState } from "react";
 import "../App.css";
 import { SidebarData } from "./SidebarData";
 import { Link } from "react-router-dom";
@@ -7,11 +8,20 @@ import { DarkModeContext } from "../Context/DarkModeContext";
 
 function Sidebar() {
     const {toggleDarkMode} = useContext(DarkModeContext);
+    const [isFocusMode, setFocusMode] = useState(true);
+
+    const toggleFocusMode = () => {
+        setFocusMode(!isFocusMode);
+    };
+
 
     return (
-        <div className="Sidebar" data-testid="sidebar">
+        <div className={`Sidebar ${!isFocusMode ? "collapsed" : "open"}`} data-testid="sidebar">
             <ul className="SidebarList">
-            {SidebarData.map((val, key)=> {
+            <li key="hide" className="row">
+                <div id="hideButtons" onClick={toggleFocusMode}>{isFocusMode ? "Hide All" : "Show All"}</div>
+            </li>
+            {isFocusMode && SidebarData.map((val, key)=> {
                 
                 return( 
                     
@@ -27,12 +37,14 @@ function Sidebar() {
                 
     
             })}
+            {isFocusMode &&
             
             <li key = "mode" className = "row">
                 <div id = "name" onClick={toggleDarkMode}>Toggle Dark Mode</div>
-            </li>
+            </li>}
             </ul>
         </div>
+        
     );
 }
 

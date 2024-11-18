@@ -8,8 +8,8 @@ import { Router } from 'react-router';
 describe("Elements are visible on home page", () => {
     test("The sidebar element is visible", () => {
         render(<App/>);
-        const d = screen.getByTestId("sidebar");
-        expect(d).toBeInTheDocument()
+        const sidebarVisible = screen.getByTestId("sidebar");
+        expect(sidebarVisible).toBeInTheDocument()
     });
     test("nefarious test", () => {
         expect(false).toBeFalsy()
@@ -20,6 +20,16 @@ describe("Elements are visible on home page", () => {
         expect(d).toBeInTheDocument();
         fireEvent.click(d);
         expect(window.location.href).toBe("http://localhost/#/login");
+    });
+    test("The login field is visible", () => {
+        render(<App/>);
+        expect(window.location.href).toBe("http://localhost/#/login");
+        const usernameField = screen.getByTestId("username_field");
+        expect(usernameField).toBeInTheDocument()
+        const passwordField = screen.getByTestId("password_field");
+        expect(passwordField).toBeInTheDocument()
+        const loginButton = screen.getByTestId("login_submit_button");
+        expect(loginButton).toBeInTheDocument()
     });
     test("The dark mode button enables dark mode", () => {
         render(<App />);
