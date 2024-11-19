@@ -39,10 +39,10 @@ export function OptionsMenu({stateArgument: sharedState, visible} : {stateArgume
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-                <Dropdown.Item onClick={() => {setColor("Red")}}>Red</Dropdown.Item>
-                <Dropdown.Item onClick={() => {setColor("Green")}}>Green</Dropdown.Item>
-                <Dropdown.Item onClick={() => {setColor("Blue")}}>Blue</Dropdown.Item>
-                <Dropdown.Item onClick={() => {setColor("Black")}}>Black</Dropdown.Item>
+                <Dropdown.Item onClick={() => {setColor("#FF0000")}}>Red</Dropdown.Item>
+                <Dropdown.Item onClick={() => {setColor("#00FF00")}}>Green</Dropdown.Item>
+                <Dropdown.Item onClick={() => {setColor("#0000FF")}}>Blue</Dropdown.Item>
+                <Dropdown.Item onClick={() => {setColor("#000000")}}>Black</Dropdown.Item>
             </Dropdown.Menu>
             </Dropdown>
             

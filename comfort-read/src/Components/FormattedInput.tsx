@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 
 import { 
     BtnBold, 
@@ -12,6 +12,7 @@ import {
     useEditorState
   } from 'react-simple-wysiwyg';
 import { Button, Dropdown } from "react-bootstrap";
+import { FocusModeContext } from "../Context/FocusModeContext";
 
 export interface ctxMenuStateInterface {
     x : number;
@@ -115,13 +116,11 @@ function FormattedInput(){
     setHtml(e.target.value);
   }
 
-  
-  
 
   return (
+    
     <div id = "wysiwyg-edtitor"> 
         <EditorProvider>
-        
         <div onMouseDown = {hideMenu} onContextMenu = {handleRightClick}>
             <Editor style = {{textAlign:"left"}} spellCheck = "false" value={html} onChange={onChange}>
                 <Toolbar>

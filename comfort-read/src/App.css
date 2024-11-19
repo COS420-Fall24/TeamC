@@ -6,15 +6,15 @@
   position:absolute;
 }
 
-#content{
-  margin:0;
-  padding:0;
-  border:0;
-  width:100%;
-  height:100%;
-  text-align: center;
-  flex:1;
-  flex-grow:1;
+#content.editor-collapsed{
+  width:80%;
+  margin-left: 15%;
+}
+
+#content.editor-open{
+  width:70%;
+  margin-left: 25%;
+
 }
 
 .light{
@@ -49,7 +49,15 @@ body {
   padding: 0;
 }
 
+.Sidebar::-webkit-scrollbar {
+  display: none;
+}
+
 .Sidebar {
+  position: fixed;
+  overflow: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
   margin:0;
   padding:0;
   top:0;
@@ -151,8 +159,6 @@ body {
 }
 
 #wysiwyg-edtitor{
-  position:relative;
   height:200px;
-  width:80%;
-  margin: 50px;
+  width:100%;
 }
