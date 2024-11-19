@@ -1,14 +1,11 @@
-import React, {HTMLAttributes, ReactNode, useState} from "react";
-import { OptionsMenu } from "./OptionsMenu";
+import React, {useState} from "react";
 
 import { 
     BtnBold, 
     BtnItalic, 
     ContentEditableEvent, 
-    createButton, 
     Editor, 
     EditorProvider, 
-    EditorState, 
     Toolbar,
     BtnUndo,
     BtnRedo,
@@ -16,13 +13,13 @@ import {
   } from 'react-simple-wysiwyg';
 import { Button, Dropdown } from "react-bootstrap";
 
-export interface sharedStateInterface {
+export interface ctxMenuStateInterface {
     x : number;
     y : number;
     setVisible: (newValue : boolean) => void;
 }
 
-function CtxMenu({stateArgument: sharedState, visible} : {stateArgument : sharedStateInterface; visible : boolean}){
+function CtxMenu({stateArgument: sharedState, visible} : {stateArgument : ctxMenuStateInterface; visible : boolean}){
     
     const editorState = useEditorState();
     
@@ -81,9 +78,7 @@ return (
             </Dropdown.Menu>
             </Dropdown>
 
-            <Button variant = "warning" onClick={highlight}>
-                    Highlight
-                </Button>
+            <Button variant = "warning" onClick={highlight}>Highlight</Button>
             
         </div>
 </div>
@@ -92,27 +87,24 @@ return (
 }
 
 function FormattedInput(){
-    const [visible, setVisible] = useState(false);
+    const [ctxMenuVisible, setCtxMenuVisible] = useState(false);
 
-    const toggleChildVisibility = (vis : boolean) => {
-        setVisible(vis);
-    };
 
-    const [sharedState, setSharedState] = useState<sharedStateInterface>({ x: 0, y: 0, setVisible:toggleChildVisibility});
+    const [ctxMenuState, setCtxMenuState] = useState<ctxMenuStateInterface>({ x: 0, y: 0, setVisible:setCtxMenuVisible});
 
     const handleRightClick = (event: React.MouseEvent<HTMLElement>) => {
 
         // updates option menu position and makes it visible on screen.
 
         event.preventDefault();
-        setVisible(true);
-        setSharedState({ x: event.clientX + 25, y: event.clientY - 50, setVisible:toggleChildVisibility});
+        setCtxMenuVisible(true);
+        setCtxMenuState({ x: event.clientX + 25, y: event.clientY - 50, setVisible:setCtxMenuVisible});
       
     };
 
     const hideMenu = (event: React.MouseEvent<HTMLElement>) => {
         //event.preventDefault();
-        setVisible(false);
+        setCtxMenuVisible(false);
     }
 
     const [html, setHtml] = useState('');
@@ -140,7 +132,7 @@ function FormattedInput(){
                 </Toolbar>
             </Editor>
         </div>
-        <CtxMenu stateArgument={sharedState} visible = {visible}></CtxMenu>
+        <CtxMenu stateArgument={ctxMenuState} visible = {ctxMenuVisible}></CtxMenu>
     </EditorProvider>
 
     
