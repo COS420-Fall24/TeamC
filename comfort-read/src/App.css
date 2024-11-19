@@ -149,3 +149,10 @@ body {
   width:80%;
   margin: 50px;
 }
+
+#wysiwyg-edtitor{
+  position:relative;
+  height:200px;
+  width:80%;
+  margin: 50px;
+}
