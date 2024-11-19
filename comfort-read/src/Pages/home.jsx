@@ -1,12 +1,13 @@
 import './../App.css';
 import Sidebar from '../Components/Sidebar';
-//import UserInput from '../Components/UserInput';
+import UserInput from '../Removed/UserInput';
 import React from "react";
 import {Link} from "react-router-dom";
 import { DarkModeContext } from '../Context/DarkModeContext';
 import {useContext} from 'react';
 import FormattedInput from '../Components/FormattedInput';
-import { FocusModeContext } from "../Context/FocusModeContext";
+import { FocusModeContext } from "../Context/FocusModeContext";import { Navbar } from 'react-bootstrap';
+
 
 
 export function Home(){
@@ -20,6 +21,7 @@ export function Home(){
         <>
     
     <div id="App" className = {theme} data-testid="App">
+        
         <Sidebar></Sidebar>
         
         <div id = "content" className={editorClass}>
