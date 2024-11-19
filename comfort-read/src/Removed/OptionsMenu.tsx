@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {sharedStateInterface} from "./UserInput";
+import {sharedStateInterface} from "../Components/UserInput";
 import Dropdown from 'react-bootstrap/Dropdown';
 
 

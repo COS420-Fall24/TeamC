@@ -23,28 +23,28 @@ function CtxMenu({stateArgument: sharedState, visible} : {stateArgument : ctxMen
     
     const editorState = useEditorState();
     
-      const { $el, $selection } = editorState;
-      
-      if (document.activeElement !== $el) {
+        const { $el, $selection } = editorState;
+        
+        if (document.activeElement !== $el) {
         $el?.focus();
-      }
+        }
 
-      function setColor(color:string) {
+        function setColor(color:string) {
         document.execCommand('forecolor',false,color); 
-      }
+        }
 
-      function setFontSize(size : number){
+        function setFontSize(size : number){
         console.log(size + " " + size.toString());
         document.execCommand('fontSize',false,size.toString());
-      }
+        }
 
-      function highlight(){
+        function highlight(){
         document.execCommand('backcolor',false,"yellow");
-      }
+        }
 
-      // TODO font spacing
+        // TODO font spacing
 
-      // TODO font name EXAMPLE: document.execCommand('fontName', false, 'Arial');
+        // TODO font name EXAMPLE: document.execCommand('fontName', false, 'Arial');
 
 return (
 
@@ -89,13 +89,10 @@ return (
 function FormattedInput(){
     const [ctxMenuVisible, setCtxMenuVisible] = useState(false);
 
-
     const [ctxMenuState, setCtxMenuState] = useState<ctxMenuStateInterface>({ x: 0, y: 0, setVisible:setCtxMenuVisible});
 
     const handleRightClick = (event: React.MouseEvent<HTMLElement>) => {
-
         // updates option menu position and makes it visible on screen.
-
         event.preventDefault();
         setCtxMenuVisible(true);
         setCtxMenuState({ x: event.clientX + 25, y: event.clientY - 50, setVisible:setCtxMenuVisible});
@@ -109,37 +106,29 @@ function FormattedInput(){
 
     const [html, setHtml] = useState('');
     
+    function onChange(e : ContentEditableEvent) {
+        setHtml(e.target.value);
+    }
 
-  
-  function onChange(e : ContentEditableEvent) {
-    setHtml(e.target.value);
-  }
+    return (
+        <div id = "wysiwyg-edtitor"> 
+            <EditorProvider>
+            
+            <div onMouseDown = {hideMenu} onContextMenu = {handleRightClick}>
+                <Editor id = "editor" style = {{textAlign:"left"}} spellCheck = "false" value={html} onChange={onChange}>
+                    <Toolbar>
+                        <BtnUndo/>
+                        <BtnRedo/>
+                        <BtnBold />
+                        <BtnItalic />
+                    </Toolbar>
+                </Editor>
+            </div>
+            <CtxMenu stateArgument={ctxMenuState} visible = {ctxMenuVisible}></CtxMenu>
+        </EditorProvider>
 
-  
-  
-
-  return (
-    <div id = "wysiwyg-edtitor"> 
-        <EditorProvider>
-        
-        <div onMouseDown = {hideMenu} onContextMenu = {handleRightClick}>
-            <Editor style = {{textAlign:"left"}} spellCheck = "false" value={html} onChange={onChange}>
-                <Toolbar>
-                    <BtnUndo/>
-                    <BtnRedo/>
-                    <BtnBold />
-                    <BtnItalic />
-                </Toolbar>
-            </Editor>
         </div>
-        <CtxMenu stateArgument={ctxMenuState} visible = {ctxMenuVisible}></CtxMenu>
-    </EditorProvider>
-
-    
-
-    
-    </div>
-  );
+    );
 }
 
 
