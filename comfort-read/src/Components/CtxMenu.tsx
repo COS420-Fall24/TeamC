@@ -33,7 +33,6 @@ function CtxMenu({stateArgument: sharedState, visible} : {stateArgument : ctxMen
     }
 
     function setFontSize(size : number){
-        console.log(size + " " + size.toString());
         document.execCommand('fontSize',false,size.toString());
     }
 

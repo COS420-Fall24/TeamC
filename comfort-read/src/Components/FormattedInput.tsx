@@ -47,7 +47,7 @@ function FormattedInput(){
     
     function onChange(e : ContentEditableEvent) {
         setHtml(e.target.value);
-        setExportContent(html);
+        
     }
     //export txt
     const  handleExportTxt=()=>{
@@ -60,12 +60,12 @@ function FormattedInput(){
     };
     return (
         <div>
-            <Sidebar />
+            
         <div id = "wysiwyg-edtitor" ></div>
             <EditorProvider>
             
-            <div onMouseDown = {hideMenu} onContextMenu = {handleRightClick}>
-                <Editor id = "editor" style = {{textAlign:"left"}} spellCheck = "false" value={html} onChange={onChange}>
+            <div onBlur={() => {setExportContent(html);}} onMouseDown = {hideMenu} onContextMenu = {handleRightClick}>
+                <Editor data-testid = "editor" id = "editor" style = {{textAlign:"left"}} spellCheck = "false" value={html} onChange={onChange}>
                     <Toolbar>
                         <BtnUndo/>
                         <BtnRedo/>

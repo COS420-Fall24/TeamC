@@ -25,7 +25,7 @@ describe("sidebar component", () => {//make sure everyhting renders
       <FocusModeContext.Provider value={{ toggleFocusMode: jest.fn() }}>
         <DarkModeContext.Provider value={{ toggleDarkMode: jest.fn() }}>
         <MemoryRouter>
-          <Sidebar/>
+          <Sidebar />
         </MemoryRouter>
       </DarkModeContext.Provider>
       </FocusModeContext.Provider>
@@ -41,7 +41,7 @@ describe("sidebar component", () => {//make sure everyhting renders
       <FocusModeContext.Provider value={{ toggleFocusMode: jest.fn() }}>
         <DarkModeContext.Provider value={{ toggleDarkMode: mockToggleDarkMode }}>
         <MemoryRouter>
-          <Sidebar/>
+          <Sidebar />
         </MemoryRouter>
       </DarkModeContext.Provider>
       </FocusModeContext.Provider>
@@ -56,7 +56,7 @@ describe("sidebar component", () => {//make sure everyhting renders
       <FocusModeContext.Provider value={{ toggleFocusMode: mockToggleFocusMode }}>
         <DarkModeContext.Provider value={{ toggleDarkMode: jest.fn() }}>
         <MemoryRouter>
-          <Sidebar/>
+          <Sidebar />
         </MemoryRouter>
       </DarkModeContext.Provider>
       </FocusModeContext.Provider>
@@ -75,7 +75,7 @@ describe("sidebar component", () => {//make sure everyhting renders
       <FocusModeContext.Provider value={{ toggleFocusMode: mockToggleFocusMode }}>
         <DarkModeContext.Provider value={{ isDarkMode: false, toggleDarkMode: jest.fn() }}>
           <MemoryRouter>
-            <Sidebar/>
+            <Sidebar />
           </MemoryRouter>
         </DarkModeContext.Provider>
       </FocusModeContext.Provider>
@@ -94,7 +94,7 @@ describe("sidebar component", () => {//make sure everyhting renders
       <FocusModeContext.Provider value={{ toggleFocusMode: jest.fn() }}>
         <DarkModeContext.Provider value={{ isDarkMode: false, toggleDarkMode: jest.fn() }}>
           <MemoryRouter>
-            <Sidebar/>
+            <Sidebar />
           </MemoryRouter>
         </DarkModeContext.Provider>
       </FocusModeContext.Provider>

@@ -5,7 +5,7 @@ import App from "./App";
 import userEvent from "@testing-library/user-event";
 import { Router } from 'react-router';
 import { FocusProvider, FocusModeContext } from "./Context/FocusModeContext";
-
+import { Home } from "./Pages/home";
 
 describe("Elements are visible on home page", () => {
     test("The sidebar element is visible", () => {
@@ -25,6 +25,11 @@ describe("Elements are visible on home page", () => {
     });
     test("The login field is visible", () => {
         render(<App/>);
+        if(window.location.href !== "http://localhost/#/login"){
+            const d = screen.getByText("Login");
+            //expect(d).toBeInTheDocument();
+            fireEvent.click(d);
+        }
         expect(window.location.href).toBe("http://localhost/#/login");
         const usernameField = screen.getByTestId("username_field");
         expect(usernameField).toBeInTheDocument()
