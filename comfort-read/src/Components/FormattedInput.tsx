@@ -92,6 +92,8 @@ function FormattedInput(){
 
     const [ctxMenuState, setCtxMenuState] = useState<ctxMenuStateInterface>({ x: 0, y: 0, setVisible:setCtxMenuVisible});
 
+    const [html, setHtml] = useState('');
+
     const handleRightClick = (event: React.MouseEvent<HTMLElement>) => {
         // updates option menu position and makes it visible on screen.
         event.preventDefault();
@@ -105,7 +107,7 @@ function FormattedInput(){
         setCtxMenuVisible(false);
     }
 
-    const [html, setHtml] = useState('');
+    
     
     function onChange(e : ContentEditableEvent) {
         setHtml(e.target.value);
