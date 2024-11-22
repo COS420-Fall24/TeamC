@@ -9,10 +9,13 @@ import {
     Toolbar,
     BtnUndo,
     BtnRedo,
-    useEditorState
+    useEditorState,
+    ContentEditable
   } from 'react-simple-wysiwyg';
 import { Button, Dropdown } from "react-bootstrap";
 import { FocusModeContext } from "../Context/FocusModeContext";
+import Sidebar from "./Sidebar";
+import {ExportFileContext} from "../Context/ExportFileContext";
 
 export interface ctxMenuStateInterface {
     x : number;
@@ -89,7 +92,7 @@ function CtxMenu({stateArgument: sharedState, visible} : {stateArgument : ctxMen
 function FormattedInput(){
     const [ctxMenuVisible, setCtxMenuVisible] = useState(false);
     const [ctxMenuState, setCtxMenuState] = useState<ctxMenuStateInterface>({ x: 0, y: 0, setVisible:setCtxMenuVisible});
-
+    const{exportAsTxt, exportAsHtml}=useContext(ExportFileContext);
     const handleRightClick = (event: React.MouseEvent<HTMLElement>) => {
         // updates option menu position and makes it visible on screen.
         event.preventDefault();
@@ -107,9 +110,19 @@ function FormattedInput(){
     function onChange(e : ContentEditableEvent) {
         setHtml(e.target.value);
     }
-
+    //export txt
+    const  handleExportTxt=()=>{
+    const plainText=html.replace(/<[^>]*>?/gm,''); /*strips html for plaintxt*/
+    exportAsTxt(plainText);
+   };
+    //export html
+    const handleExportHtml=()=>{
+        exportAsHtml(html);
+    };
     return (
-        <div id = "wysiwyg-edtitor"> 
+        <div>
+            <Sidebar />
+        <div id = "wysiwyg-edtitor" ></div>
             <EditorProvider>
             
             <div onMouseDown = {hideMenu} onContextMenu = {handleRightClick}>
@@ -123,6 +136,11 @@ function FormattedInput(){
                 </Editor>
             </div>
             <CtxMenu stateArgument={ctxMenuState} visible = {ctxMenuVisible}></CtxMenu>
+            <div>
+            <button onClick={handleExportTxt}>Export as TXT</button>
+            <button onClick={handleExportHtml}>Export as HTML</button>
+            </div>
+        
         </EditorProvider>
 
         </div>
