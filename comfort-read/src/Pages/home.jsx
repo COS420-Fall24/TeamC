@@ -1,6 +1,5 @@
 import './../App.css';
 import Sidebar from '../Components/Sidebar';
-import UserInput from '../Removed/UserInput';
 import React from "react";
 import {Link} from "react-router-dom";
 import { DarkModeContext } from '../Context/DarkModeContext';

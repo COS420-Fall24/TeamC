@@ -23,33 +23,32 @@ export interface ctxMenuStateInterface {
 function CtxMenu({stateArgument: sharedState, visible} : {stateArgument : ctxMenuStateInterface; visible : boolean}){
     
     const editorState = useEditorState();
+    const { $el, $selection } = editorState;
     
-        const { $el, $selection } = editorState;
-        
-        if (document.activeElement !== $el) {
+    if (document.activeElement !== $el) {
         $el?.focus();
-        }
+    }
 
-        function setColor(color:string) {
+    function setColor(color:string) {
         document.execCommand('forecolor',false,color); 
-        }
+    }
 
-        function setFontSize(size : number){
+    function setFontSize(size : number){
         console.log(size + " " + size.toString());
         document.execCommand('fontSize',false,size.toString());
-        }
+    }
 
-        function highlight(){
+    function highlight(){
         document.execCommand('backcolor',false,"yellow");
-        }
+    }
 
-        // TODO font spacing
+    // TODO font spacing
 
-        // TODO font name EXAMPLE: document.execCommand('fontName', false, 'Arial');
+    // TODO font name EXAMPLE: document.execCommand('fontName', false, 'Arial');
 
-return (
+    return (
 
-<div>
+    <div>
 
         <div data-testid = "optionsmenu" className = "OptionsMenu" style = {{left:sharedState.x,top:sharedState.y,visibility:visible ? "visible" : "hidden"}}>
             
@@ -82,14 +81,13 @@ return (
             <Button variant = "warning" onClick={highlight}>Highlight</Button>
             
         </div>
-</div>
+    </div>
 
-);
+    );
 }
 
 function FormattedInput(){
     const [ctxMenuVisible, setCtxMenuVisible] = useState(false);
-
     const [ctxMenuState, setCtxMenuState] = useState<ctxMenuStateInterface>({ x: 0, y: 0, setVisible:setCtxMenuVisible});
 
     const [html, setHtml] = useState('');
@@ -99,7 +97,6 @@ function FormattedInput(){
         event.preventDefault();
         setCtxMenuVisible(true);
         setCtxMenuState({ x: event.clientX + 25, y: event.clientY - 50, setVisible:setCtxMenuVisible});
-      
     };
 
     const hideMenu = (event: React.MouseEvent<HTMLElement>) => {

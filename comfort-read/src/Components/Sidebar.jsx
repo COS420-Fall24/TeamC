@@ -14,7 +14,7 @@ function Sidebar() {
         <div className={`Sidebar ${isFocusMode ? "collapsed" : "open"}`} data-testid="sidebar">
             <ul className="SidebarList">
             <li key="hide" className="row">
-                <div id="hideButtons" onClick={toggleFocusMode}>{isFocusMode ? "Hide All" : "Show All"}</div>
+                <div id="hideButtons" onClick={toggleFocusMode}>{isFocusMode ? "Show All" : "Hide All"}</div>
             </li>
             {!isFocusMode && SidebarData.map((val, key)=> {
                 return( 

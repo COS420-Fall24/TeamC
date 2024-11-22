@@ -1,8 +1,10 @@
 import React from "react";
+import { useContext } from "react";
 import { fireEvent, getByTestId, render, screen } from "@testing-library/react";
 import App from "./App";
 import userEvent from "@testing-library/user-event";
 import { Router } from 'react-router';
+import { FocusProvider, FocusModeContext } from "./Context/FocusModeContext";
 
 
 describe("Elements are visible on home page", () => {
@@ -38,4 +40,5 @@ describe("Elements are visible on home page", () => {
         fireEvent.click(d);
         expect(screen.getByTestId("App")).toHaveClass("dark");
     });
+    
 });
