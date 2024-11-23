@@ -31,9 +31,11 @@ function Sidebar() {
     return (
         <div className={`Sidebar ${isFocusMode ? "collapsed" : "open"}`} data-testid="sidebar">
             <ul className="SidebarList">
+            
             <li key="hide" className="row">
                 <div id="hideButtons" onClick={toggleFocusMode}>{isFocusMode ? "Show All" : "Hide All"}</div>
             </li>
+
             {!isFocusMode && SidebarData.map((val, key)=> {
                 if (val.name==="Export"){
                     return (
@@ -56,7 +58,7 @@ function Sidebar() {
             </li>
 
             <li key = "export" className = "row">
-                <div id = "export" onClick={() =>{handleExport("export")}}>Export</div>
+                <div id = "export" onClick={() =>{handleExport("export")}}>Import/Export</div>
             </li></>}
             </ul>
             <Modal show={showExportModal} onHide={()=> setShowExportModal (false)}>

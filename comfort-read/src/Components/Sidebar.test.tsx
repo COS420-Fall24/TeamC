@@ -6,6 +6,7 @@ import{DarkModeContext} from "../Context/DarkModeContext";
 import { FocusModeContext , FocusProvider} from "../Context/FocusModeContext";
 import Sidebar from "./Sidebar";
 import { isFocusable } from "@testing-library/user-event/dist/utils";
+import { ExportFileProvider } from "../Context/ExportFileContext";
 
 jest.mock("./SidebarData", () => ({ //mock sidebar w/ items
   SidebarData:[
@@ -15,7 +16,7 @@ jest.mock("./SidebarData", () => ({ //mock sidebar w/ items
     { name: "Color" },
     { name: "Format" },
     { name: "Extra" },
-    { name: "Import/Export" },
+    { },
     { name: "Summarize" },
   ],
 }));
@@ -40,9 +41,12 @@ describe("sidebar component", () => {//make sure everyhting renders
     render(
       <FocusModeContext.Provider value={{ toggleFocusMode: jest.fn() }}>
         <DarkModeContext.Provider value={{ toggleDarkMode: mockToggleDarkMode }}>
+        <ExportFileProvider>
         <MemoryRouter>
+          
           <Sidebar />
         </MemoryRouter>
+        </ExportFileProvider>
       </DarkModeContext.Provider>
       </FocusModeContext.Provider>
     );
@@ -55,9 +59,11 @@ describe("sidebar component", () => {//make sure everyhting renders
     render(
       <FocusModeContext.Provider value={{ toggleFocusMode: mockToggleFocusMode }}>
         <DarkModeContext.Provider value={{ toggleDarkMode: jest.fn() }}>
+        <ExportFileProvider>
         <MemoryRouter>
           <Sidebar />
         </MemoryRouter>
+        </ExportFileProvider>
       </DarkModeContext.Provider>
       </FocusModeContext.Provider>
     );
@@ -74,9 +80,11 @@ describe("sidebar component", () => {//make sure everyhting renders
     render(
       <FocusModeContext.Provider value={{ toggleFocusMode: mockToggleFocusMode }}>
         <DarkModeContext.Provider value={{ isDarkMode: false, toggleDarkMode: jest.fn() }}>
-          <MemoryRouter>
-            <Sidebar />
-          </MemoryRouter>
+          <ExportFileProvider>
+            <MemoryRouter>
+              <Sidebar />
+            </MemoryRouter>
+          </ExportFileProvider>
         </DarkModeContext.Provider>
       </FocusModeContext.Provider>
     );
@@ -93,9 +101,11 @@ describe("sidebar component", () => {//make sure everyhting renders
     render(
       <FocusModeContext.Provider value={{ toggleFocusMode: jest.fn() }}>
         <DarkModeContext.Provider value={{ isDarkMode: false, toggleDarkMode: jest.fn() }}>
+          <ExportFileProvider>
           <MemoryRouter>
             <Sidebar />
           </MemoryRouter>
+          </ExportFileProvider>
         </DarkModeContext.Provider>
       </FocusModeContext.Provider>
     );
