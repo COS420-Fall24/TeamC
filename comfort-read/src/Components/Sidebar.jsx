@@ -12,9 +12,9 @@ import { exportAsHtml } from "../Context/exportFile";
 function Sidebar() {
     const { toggleDarkMode } = useContext(DarkModeContext);
     const { isFocusMode, toggleFocusMode } = useContext(FocusModeContext);
-    const { exportAsTxt, exportAsHtml} = useContext(ExportFileContext);
+    const { exportAsTxt, exportAsHtml, exportContent} = useContext(ExportFileContext);
 
-    const [showExportModal,setShowExportModal]=useState(false)
+    const [showExportModal,setShowExportModal]=useState(false);
     const handleExport = (action) =>{
         if (action === "export") {
             setShowExportModal(true); // show on user click
@@ -22,9 +22,9 @@ function Sidebar() {
     };
     const handleExportChoice=(format) =>{
         if (format==="txt"){
-            exportAsTxt(); //exp txt
+            exportAsTxt(exportContent); //exp txt
         } else if (format==="html"){
-            exportAsHtml(); //exp html
+            exportAsHtml(exportContent); //exp html
         }
         setShowExportModal(false);//close after selection
     }
@@ -50,10 +50,14 @@ function Sidebar() {
                     </Link>
                 )
             })}
-            {!isFocusMode && 
+            {!isFocusMode && <>
             <li key = "mode" className = "row">
                 <div id = "name" onClick={toggleDarkMode}>Toggle Dark Mode</div>
-            </li>}
+            </li>
+
+            <li key = "export" className = "row">
+                <div id = "export" onClick={() =>{handleExport("export")}}>Export</div>
+            </li></>}
             </ul>
             <Modal show={showExportModal} onHide={()=> setShowExportModal (false)}>
                 <Modal.Header closeButton>

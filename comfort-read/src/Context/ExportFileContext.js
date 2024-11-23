@@ -4,6 +4,7 @@ import {exportAsTxt, exportAsHtml} from "./exportFile"
 const ExportFileContext=createContext();
 function ExportFileProvider(props) {
     const[exportStatus, setExportStatus] = useState(false);
+    const[exportContent, setExportContent] = useState("");
     const updateExportStatus = (status)=>{
         setExportStatus(status);
     };
@@ -13,6 +14,8 @@ function ExportFileProvider(props) {
                 exportAsTxt,
                 exportAsHtml,
                 exportStatus,
+                exportContent,
+                setExportContent,
                 updateExportStatus,
             }}
         > {props.children}

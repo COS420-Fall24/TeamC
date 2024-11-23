@@ -16,6 +16,7 @@ import { Button, Dropdown } from "react-bootstrap";
 import { FocusModeContext } from "../Context/FocusModeContext";
 import Sidebar from "./Sidebar";
 import {ExportFileContext} from "../Context/ExportFileContext";
+import CtxMenu from "./CtxMenu";
 
 export interface ctxMenuStateInterface {
     x : number;
@@ -23,76 +24,10 @@ export interface ctxMenuStateInterface {
     setVisible: (newValue : boolean) => void;
 }
 
-function CtxMenu({stateArgument: sharedState, visible} : {stateArgument : ctxMenuStateInterface; visible : boolean}){
-    
-    const editorState = useEditorState();
-    const { $el, $selection } = editorState;
-    
-    if (document.activeElement !== $el) {
-        $el?.focus();
-    }
-
-    function setColor(color:string) {
-        document.execCommand('forecolor',false,color); 
-    }
-
-    function setFontSize(size : number){
-        console.log(size + " " + size.toString());
-        document.execCommand('fontSize',false,size.toString());
-    }
-
-    function highlight(){
-        document.execCommand('backcolor',false,"yellow");
-    }
-
-    // TODO font spacing
-
-    // TODO font name EXAMPLE: document.execCommand('fontName', false, 'Arial');
-
-    return (
-
-    <div>
-
-        <div data-testid = "optionsmenu" className = "OptionsMenu" style = {{left:sharedState.x,top:sharedState.y,visibility:visible ? "visible" : "hidden"}}>
-            
-            <Dropdown>
-            <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                Size
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-
-                {Array.from({ length: 7 }, (_, index) => (
-                    <Dropdown.Item key={index+1} onClick={() => {setFontSize(index + 1)}}>{index + 1}</Dropdown.Item>
-                ))}
-            </Dropdown.Menu>
-            </Dropdown>
-
-            <Dropdown>
-            <Dropdown.Toggle variant="info" id="dropdown-basic">
-                Color
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-                <Dropdown.Item onClick={() => {setColor("Red")}}>Red</Dropdown.Item>
-                <Dropdown.Item onClick={() => {setColor("Green")}}>Green</Dropdown.Item>
-                <Dropdown.Item onClick={() => {setColor("Blue")}}>Blue</Dropdown.Item>
-                <Dropdown.Item onClick={() => {setColor("Black")}}>Black</Dropdown.Item>
-            </Dropdown.Menu>
-            </Dropdown>
-
-            <Button variant = "warning" onClick={highlight}>Highlight</Button>
-            
-        </div>
-    </div>
-
-    );
-}
-
 function FormattedInput(){
     const [ctxMenuVisible, setCtxMenuVisible] = useState(false);
     const [ctxMenuState, setCtxMenuState] = useState<ctxMenuStateInterface>({ x: 0, y: 0, setVisible:setCtxMenuVisible});
-    const{exportAsTxt, exportAsHtml}=useContext(ExportFileContext);
+    const{exportAsTxt, exportAsHtml, exportContent,setExportContent}=useContext(ExportFileContext);
 
     const [html, setHtml] = useState('');
 
@@ -112,6 +47,7 @@ function FormattedInput(){
     
     function onChange(e : ContentEditableEvent) {
         setHtml(e.target.value);
+        setExportContent(html);
     }
     //export txt
     const  handleExportTxt=()=>{
@@ -140,8 +76,8 @@ function FormattedInput(){
             </div>
             <CtxMenu stateArgument={ctxMenuState} visible = {ctxMenuVisible}></CtxMenu>
             <div>
-            <button onClick={handleExportTxt}>Export as TXT</button>
-            <button onClick={handleExportHtml}>Export as HTML</button>
+            {/*<button onClick={handleExportTxt}>Export as TXT</button>
+            <button onClick={handleExportHtml}>Export as HTML</button>*/}
             </div>
         
         </EditorProvider>
