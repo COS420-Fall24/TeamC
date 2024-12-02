@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useRef} from "react";
 
 import { 
     BtnBold, 
@@ -24,23 +24,49 @@ export interface ctxMenuStateInterface {
     setVisible: (newValue : boolean) => void;
 }
 
+interface synthesisInterface{
+    rate : number;
+    voice : number;
+    pitch : number;
+    volume : number;
+}
+
 function FormattedInput(){
     const [ctxMenuVisible, setCtxMenuVisible] = useState(false);
     const [ctxMenuState, setCtxMenuState] = useState<ctxMenuStateInterface>({ x: 0, y: 0, setVisible:setCtxMenuVisible});
     const{exportAsTxt, exportAsHtml, exportContent,setExportContent}=useContext(ExportFileContext);
-
+    const utteranceRef = useRef(new SpeechSynthesisUtterance());
+    const [synthesis, setSynthesis] = useState<synthesisInterface>({rate : 1,voice : 0,pitch: 1,volume:1});
     const [html, setHtml] = useState('');
+
+    const handleSpeak = () => {
+        const div = document.createElement("div");
+        div.innerHTML = html;
+
+        const utterance = new SpeechSynthesisUtterance(div.innerText);
+        utterance.rate = synthesis.rate;
+        utterance.pitch = synthesis.pitch;
+        utterance.volume = synthesis.volume;
+        utterance.voice = speechSynthesis.getVoices()[synthesis.voice];
+        utteranceRef.current = utterance;
+        window.speechSynthesis.speak(utterance);
+    }
 
     const handleRightClick = (event: React.MouseEvent<HTMLElement>) => {
         // updates option menu position and makes it visible on screen.
         event.preventDefault();
-        setCtxMenuVisible(true);
-        setCtxMenuState({ x: event.clientX + 25, y: event.clientY - 50, setVisible:setCtxMenuVisible});
+
+        if(!ctxMenuVisible){
+            setCtxMenuVisible(true);
+            setCtxMenuState({ x: event.clientX + 25, y: event.clientY - 50, setVisible:setCtxMenuVisible});
+        }
     };
 
     const hideMenu = (event: React.MouseEvent<HTMLElement>) => {
         //event.preventDefault();
-        setCtxMenuVisible(false);
+        if(ctxMenuVisible){
+            setCtxMenuVisible(false);
+        }
     }
 
     
@@ -58,6 +84,9 @@ function FormattedInput(){
     const handleExportHtml=()=>{
         exportAsHtml(html);
     };
+
+    const voices = window.speechSynthesis.getVoices();
+
     return (
         <div>
             
@@ -71,6 +100,22 @@ function FormattedInput(){
                         <BtnRedo/>
                         <BtnBold />
                         <BtnItalic />
+                        <button data-testid = "tts" onClick = {handleSpeak}>TTS</button>
+                        <select id="ttsOption" value = {synthesis.voice} onChange={(e) => {setSynthesis({...synthesis,voice:parseInt(e.target.value)})}}>
+                            {voices.map((voice,index)=>(
+                                <option key = {index} value = {index}>{voice.name}</option>
+                            ))}
+                        </select>
+
+                        {/*Speed*/}
+                        <label className = "ttsLabel" htmlFor = "speed">Speed:</label>
+                        <input className = "ttsCtrl" name = "speed" type = "range" min = "5" max = "20" value = {synthesis.rate * 10} onChange = {(e) => setSynthesis({...synthesis,rate:parseInt(e.target.value)/10})}/>
+                        {/*Pitch*/}
+                        {/*<input type = "range" min = "5" max = "20" value = {synthesis.pitch * 10} onChange = {(e) => setSynthesis({...synthesis,pitch:parseInt(e.target.value)/10})}/>*/}
+                        {/*Volume*/}
+                        <label className = "ttsLabel" htmlFor = "vol">Volume:</label>
+                        <input className = "ttsCtrl" name = "vol" type = "range" min = "0" max = "10" value = {synthesis.volume * 10} onChange = {(e) => setSynthesis({...synthesis,volume:parseInt(e.target.value)/10})}/>
+
                     </Toolbar>
                 </Editor>
             </div>

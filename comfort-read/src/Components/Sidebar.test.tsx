@@ -25,9 +25,11 @@ describe("sidebar component", () => {//make sure everyhting renders
     render(
       <FocusModeContext.Provider value={{ toggleFocusMode: jest.fn() }}>
         <DarkModeContext.Provider value={{ toggleDarkMode: jest.fn() }}>
+        <ExportFileProvider>
         <MemoryRouter>
           <Sidebar />
         </MemoryRouter>
+        </ExportFileProvider>
       </DarkModeContext.Provider>
       </FocusModeContext.Provider>
     ); //sidebar list
