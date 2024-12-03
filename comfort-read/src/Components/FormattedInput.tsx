@@ -39,6 +39,55 @@ function FormattedInput(){
     const [synthesis, setSynthesis] = useState<synthesisInterface>({rate : 1,voice : 0,pitch: 1,volume:1});
     const [html, setHtml] = useState('');
 
+    const toggleBionic = () => {
+        // Create temporary div to parse HTML content
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
+
+        // Check if content is already in bionic reading format
+        const isBionic = tempDiv.innerHTML.includes('<strong>');
+        
+        if (isBionic) {
+            // Remove all bold tags while preserving text content
+            const plainText = tempDiv.innerHTML.replace(/<\/?strong>/g, '');
+            setHtml(plainText);
+            return;
+        }
+
+        // Process all text nodes in the document
+        const walk = document.createTreeWalker(
+            tempDiv,
+            NodeFilter.SHOW_ALL,
+            null
+        );
+
+        let currentNode;
+        while ((currentNode = walk.nextNode()) !== null) {
+            // Split text into words
+            const words = currentNode.textContent!.split(/(\s+)/);
+            
+            // Process each word
+            const processedWords = words.map(word => {
+                if (word.trim().length === 0) return word; // Preserve whitespace
+                
+                const midpoint = Math.ceil(word.length / 2);
+                const firstHalf = word.slice(0, midpoint);
+                const secondHalf = word.slice(midpoint);
+                
+                return `<strong>${firstHalf}</strong>${secondHalf}`;
+            });
+
+            // Create new element with processed text
+            const span = document.createElement('span');
+            span.innerHTML = processedWords.join('');
+            
+            // Replace original node with new processed node
+            currentNode.parentNode!.replaceChild(span, currentNode);
+        }
+
+        setHtml(tempDiv.innerHTML);
+    };
+
     const handleSpeak = () => {
         const div = document.createElement("div");
         div.innerHTML = html;
@@ -100,6 +149,8 @@ function FormattedInput(){
                         <BtnRedo/>
                         <BtnBold />
                         <BtnItalic />
+                        <button data-testid = "bionic" onClick = {toggleBionic}>Bionic</button>
+
                         <button data-testid = "tts" onClick = {handleSpeak}>TTS</button>
                         <select id="ttsOption" value = {synthesis.voice} onChange={(e) => {setSynthesis({...synthesis,voice:parseInt(e.target.value)})}}>
                             {voices.map((voice,index)=>(
