@@ -23,9 +23,13 @@ export const SidebarData = [
     {
         name: "Extra"
     },
-    {
-        name: "Import/Export"
-    },
+    /*{
+        name: "Export",
+        actions: [
+            {name:"Export as HTML", onClick: "exportHtml"},
+            {name: "Export as TXT", onClick: "exportTxt"},
+        ],
+    },*/
     {
         name: "Summarize"
     }
