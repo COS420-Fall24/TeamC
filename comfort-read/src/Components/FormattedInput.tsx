@@ -57,33 +57,35 @@ function FormattedInput(){
         // Process all text nodes in the document
         const walk = document.createTreeWalker(
             tempDiv,
-            NodeFilter.SHOW_ALL,
+            NodeFilter.SHOW_TEXT,
             null
         );
 
+        const nodes = [];
         let currentNode;
-        while ((currentNode = walk.nextNode()) !== null) {
-            // Split text into words
-            const words = currentNode.textContent!.split(/(\s+)/);
-            
-            // Process each word
-            const processedWords = words.map(word => {
-                if (word.trim().length === 0) return word; // Preserve whitespace
-                
-                const midpoint = Math.ceil(word.length / 2);
-                const firstHalf = word.slice(0, midpoint);
-                const secondHalf = word.slice(midpoint);
-                
-                return `<strong>${firstHalf}</strong>${secondHalf}`;
-            });
-
-            // Create new element with processed text
-            const span = document.createElement('span');
-            span.innerHTML = processedWords.join('');
-            
-            // Replace original node with new processed node
-            currentNode.parentNode!.replaceChild(span, currentNode);
+        while (currentNode = walk.nextNode()) {
+            nodes.push(currentNode);
         }
+
+        // Process nodes after collecting them all
+        nodes.forEach(node => {
+            if (node.textContent) {
+                const words = node.textContent.split(/(\s+)/);
+                const processedWords = words.map(word => {
+                    if (word.trim().length === 0) return word;
+                    
+                    const midpoint = Math.ceil(word.length / 2);
+                    const firstHalf = word.slice(0, midpoint);
+                    const secondHalf = word.slice(midpoint);
+                    
+                    return `<strong>${firstHalf}</strong>${secondHalf}`;
+                });
+
+                const span = document.createElement('span');
+                span.innerHTML = processedWords.join('');
+                node.parentNode?.replaceChild(span, node);
+            }
+        });
 
         setHtml(tempDiv.innerHTML);
     };
