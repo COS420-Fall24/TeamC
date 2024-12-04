@@ -61,45 +61,51 @@ function FormattedInput(){
             null
         );
 
-        const nodes = [];
         let currentNode;
-        while (currentNode = walk.nextNode()) {
-            nodes.push(currentNode);
+        while ((currentNode = walk.nextNode()) !== null) {
+            // Split text into words
+            const words = currentNode.textContent!.split(/(\s+)/);
+            
+            // Process each word
+            const processedWords = words.map(word => {
+                if (word.trim().length === 0) return word; // Preserve whitespace
+                
+                const midpoint = Math.ceil(word.length / 2);
+                const firstHalf = word.slice(0, midpoint);
+                const secondHalf = word.slice(midpoint);
+                
+                console.log(`<strong>${firstHalf}</strong>${secondHalf}`);
+            
+                return `<strong>${firstHalf}</strong>${secondHalf}`;
+            });
+
+            // Create new element with processed text
+            const span = document.createElement('span');
+            span.innerHTML = processedWords.join('');
+            
+            // Replace original node with new processed node
+            currentNode.parentNode!.replaceChild(span, currentNode);
         }
-
-        // Process nodes after collecting them all
-        nodes.forEach(node => {
-            if (node.textContent) {
-                const words = node.textContent.split(/(\s+)/);
-                const processedWords = words.map(word => {
-                    if (word.trim().length === 0) return word;
-                    
-                    const midpoint = Math.ceil(word.length / 2);
-                    const firstHalf = word.slice(0, midpoint);
-                    const secondHalf = word.slice(midpoint);
-                    
-                    return `<strong>${firstHalf}</strong>${secondHalf}`;
-                });
-
-                const span = document.createElement('span');
-                span.innerHTML = processedWords.join('');
-                node.parentNode?.replaceChild(span, node);
-            }
-        });
 
         setHtml(tempDiv.innerHTML);
     };
 
     const handleSpeak = () => {
+
+        
         const div = document.createElement("div");
         div.innerHTML = html;
 
         const utterance = new SpeechSynthesisUtterance(div.innerText);
+        if(utterance !== undefined && synthesis.pitch !== undefined && synthesis.rate !== undefined && synthesis.volume !== undefined && synthesis.voice !== undefined && utterance.voice !== undefined && utterance.rate !== undefined && utterance.pitch !== undefined && utterance.volume !== undefined){
         utterance.rate = synthesis.rate;
         utterance.pitch = synthesis.pitch;
         utterance.volume = synthesis.volume;
         utterance.voice = speechSynthesis.getVoices()[synthesis.voice];
         utteranceRef.current = utterance;
+
+        }
+
         window.speechSynthesis.speak(utterance);
     }
 
@@ -154,11 +160,14 @@ function FormattedInput(){
                         <button data-testid = "bionic" onClick = {toggleBionic}>Bionic</button>
 
                         <button data-testid = "tts" onClick = {handleSpeak}>TTS</button>
+                        
+                        {voices !== undefined && (
                         <select id="ttsOption" value = {synthesis.voice} onChange={(e) => {setSynthesis({...synthesis,voice:parseInt(e.target.value)})}}>
                             {voices.map((voice,index)=>(
                                 <option key = {index} value = {index}>{voice.name}</option>
                             ))}
                         </select>
+                        )}
 
                         {/*Speed*/}
                         <label className = "ttsLabel" htmlFor = "speed">Speed:</label>
