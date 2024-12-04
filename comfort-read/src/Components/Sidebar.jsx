@@ -37,18 +37,12 @@ function Sidebar() {
             </li>
 
             {!isFocusMode && SidebarData.map((val, key)=> {
-                if (val.name==="Export"){
-                    return (
-                        <li key={key} className="row" onClick={() => handleExport(val.action)}>
+                return( 
+                    <Link className="SidebarLink" to={val.url}>
+                        <li key={val.name} className="row">
+                            {console.log(val.name)}
                             <div id="name">{val.name}</div>
                         </li>
-                    ); 
-                }
-                return( 
-                    <Link className = "SidebarLink" to = {val.url}>
-                    <li key={key} className="row">
-                        <div id="name">{val.name}</div>
-                    </li>
                     </Link>
                 )
             })}

@@ -41,15 +41,21 @@ function FormattedInput(){
     const [html, setHtml] = useState('');
 
     const handleSpeak = () => {
+
+        
         const div = document.createElement("div");
         div.innerHTML = html;
 
         const utterance = new SpeechSynthesisUtterance(div.innerText);
+        if(utterance !== undefined && synthesis.pitch !== undefined && synthesis.rate !== undefined && synthesis.volume !== undefined && synthesis.voice !== undefined && utterance.voice !== undefined && utterance.rate !== undefined && utterance.pitch !== undefined && utterance.volume !== undefined){
         utterance.rate = synthesis.rate;
         utterance.pitch = synthesis.pitch;
         utterance.volume = synthesis.volume;
         utterance.voice = speechSynthesis.getVoices()[synthesis.voice];
         utteranceRef.current = utterance;
+
+        }
+
         window.speechSynthesis.speak(utterance);
     }
 
