@@ -17,6 +17,7 @@ import { FocusModeContext } from "../Context/FocusModeContext";
 import Sidebar from "./Sidebar";
 import {ExportFileContext} from "../Context/ExportFileContext";
 import CtxMenu from "./CtxMenu";
+import BionicText from "./BionicText";
 
 export interface ctxMenuStateInterface {
     x : number;
@@ -38,57 +39,6 @@ function FormattedInput(){
     const utteranceRef = useRef(new SpeechSynthesisUtterance());
     const [synthesis, setSynthesis] = useState<synthesisInterface>({rate : 1,voice : 0,pitch: 1,volume:1});
     const [html, setHtml] = useState('');
-
-    const toggleBionic = () => {
-        // Create temporary div to parse HTML content
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
-
-        // Check if content is already in bionic reading format
-        const isBionic = tempDiv.innerHTML.includes('<strong>');
-        
-        if (isBionic) {
-            // Remove all bold tags while preserving text content
-            const plainText = tempDiv.innerHTML.replace(/<\/?strong>/g, '');
-            setHtml(plainText);
-            return;
-        }
-
-        // Process all text nodes in the document
-        const walk = document.createTreeWalker(
-            tempDiv,
-            NodeFilter.SHOW_TEXT,
-            null
-        );
-
-        const nodes = [];
-        let currentNode;
-        while (currentNode = walk.nextNode()) {
-            nodes.push(currentNode);
-        }
-
-        // Process nodes after collecting them all
-        nodes.forEach(node => {
-            if (node.textContent) {
-                const words = node.textContent.split(/(\s+)/);
-                const processedWords = words.map(word => {
-                    if (word.trim().length === 0) return word;
-                    
-                    const midpoint = Math.ceil(word.length / 2);
-                    const firstHalf = word.slice(0, midpoint);
-                    const secondHalf = word.slice(midpoint);
-                    
-                    return `<strong>${firstHalf}</strong>${secondHalf}`;
-                });
-
-                const span = document.createElement('span');
-                span.innerHTML = processedWords.join('');
-                node.parentNode?.replaceChild(span, node);
-            }
-        });
-
-        setHtml(tempDiv.innerHTML);
-    };
 
     const handleSpeak = () => {
         const div = document.createElement("div");
@@ -151,10 +101,21 @@ function FormattedInput(){
                         <BtnRedo/>
                         <BtnBold />
                         <BtnItalic />
-                        <button data-testid = "bionic" onClick = {toggleBionic}>Bionic</button>
 
-                        <button data-testid = "tts" onClick = {handleSpeak}>TTS</button>
-                        <select id="ttsOption" value = {synthesis.voice} onChange={(e) => {setSynthesis({...synthesis,voice:parseInt(e.target.value)})}}>
+                        {/*Call BionicText component*/}
+                        <BionicText html={html} setHtml={setHtml} />
+
+                        {/*Added if statement to prevent a queue of TTS requests while one is already in progress*/}
+                        <button data-testid = "tts" onClick = {() => {
+                            if (!window.speechSynthesis.speaking) {
+                                handleSpeak();
+                            }
+                        }}>TTS</button>
+                        <select id="ttsOption" value = {synthesis.voice} onChange={(e) => {
+                            if (!window.speechSynthesis.speaking) {
+                                setSynthesis({...synthesis,voice:parseInt(e.target.value)})
+                            }
+                        }}>
                             {voices.map((voice,index)=>(
                                 <option key = {index} value = {index}>{voice.name}</option>
                             ))}
