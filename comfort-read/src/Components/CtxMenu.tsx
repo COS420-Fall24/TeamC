@@ -18,8 +18,16 @@ import { FocusModeContext } from "../Context/FocusModeContext";
 import Sidebar from "./Sidebar";
 
 import {ctxMenuStateInterface} from "./FormattedInput";
+import { createBookmark, scrollToBookmark } from './BookmarkUtils';
 
-function CtxMenu({stateArgument: sharedState, visible} : {stateArgument : ctxMenuStateInterface; visible : boolean}){
+interface CtxMenuProps {
+    stateArgument: ctxMenuStateInterface;
+    visible: boolean;
+    onBookmark: () => void;
+    bookmarkPosition: number | null;
+}
+
+function CtxMenu({stateArgument: sharedState, visible, onBookmark, bookmarkPosition}: CtxMenuProps) {
     
     const editorState = useEditorState();
     const { $el, $selection } = editorState;
@@ -76,6 +84,23 @@ function CtxMenu({stateArgument: sharedState, visible} : {stateArgument : ctxMen
             </Dropdown>
 
             <Button variant = "warning" onClick={highlight}>Highlight</Button>
+            
+            <Button 
+                variant="secondary" 
+                onClick={onBookmark}
+                style={{marginRight: '5px'}}
+            >
+                Set Bookmark
+            </Button>
+
+            {bookmarkPosition !== null && (
+                <Button 
+                    variant="secondary" 
+                    onClick={() => scrollToBookmark(bookmarkPosition)}
+                >
+                    Go to Bookmark
+                </Button>
+            )}
             
         </div>
     </div>

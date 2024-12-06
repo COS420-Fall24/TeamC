@@ -18,6 +18,7 @@ import Sidebar from "./Sidebar";
 import {ExportFileContext} from "../Context/ExportFileContext";
 import CtxMenu from "./CtxMenu";
 import BionicText from "./BionicText";
+import { createBookmark, scrollToBookmark } from './BookmarkUtils';
 
 export interface ctxMenuStateInterface {
     x : number;
@@ -39,6 +40,7 @@ function FormattedInput(){
     const utteranceRef = useRef(new SpeechSynthesisUtterance());
     const [synthesis, setSynthesis] = useState<synthesisInterface>({rate : 1,voice : 0,pitch: 1,volume:1});
     const [html, setHtml] = useState('');
+    const [bookmarkPosition, setBookmarkPosition] = useState<number | null>(null);
 
     const handleSpeak = () => {
 
@@ -94,6 +96,15 @@ function FormattedInput(){
 
     const voices = window.speechSynthesis.getVoices();
 
+    const handleBookmark = () => {
+        const selection = window.getSelection();
+        if (selection && selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const bookmark = createBookmark(range);
+            setBookmarkPosition(bookmark);
+        }
+    };
+
     return (
         <div>
             
@@ -139,7 +150,12 @@ function FormattedInput(){
                     </Toolbar>
                 </Editor>
             </div>
-            <CtxMenu stateArgument={ctxMenuState} visible = {ctxMenuVisible}></CtxMenu>
+            <CtxMenu 
+                stateArgument={ctxMenuState} 
+                visible={ctxMenuVisible} 
+                onBookmark={handleBookmark}
+                bookmarkPosition={bookmarkPosition}
+            />
             <div>
             {/*<button onClick={handleExportTxt}>Export as TXT</button>
             <button onClick={handleExportHtml}>Export as HTML</button>*/}
