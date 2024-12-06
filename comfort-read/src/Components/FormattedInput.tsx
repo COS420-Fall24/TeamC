@@ -19,6 +19,7 @@ import {ExportFileContext} from "../Context/ExportFileContext";
 import CtxMenu from "./CtxMenu";
 import BionicText from "./BionicText";
 import { TTS } from "./TTS";
+import { createBookmark, scrollToBookmark } from './BookmarkUtils';
 
 export interface ctxMenuStateInterface {
     x : number;
@@ -32,6 +33,7 @@ function FormattedInput(){
     const{exportAsTxt, exportAsHtml, exportContent,setExportContent}=useContext(ExportFileContext);
     
     const [html, setHtml] = useState('');
+    const [bookmarkPosition, setBookmarkPosition] = useState<number | null>(null);
 
     
     const handleRightClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -55,6 +57,15 @@ function FormattedInput(){
         
     }  
 
+    const handleBookmark = () => {
+        const selection = window.getSelection();
+        if (selection && selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const bookmark = createBookmark(range);
+            setBookmarkPosition(bookmark);
+        }
+    };
+
     return (
         <div>
             
@@ -76,7 +87,12 @@ function FormattedInput(){
                     </Toolbar>
                 </Editor>
             </div>
-            <CtxMenu stateArgument={ctxMenuState} visible = {ctxMenuVisible}></CtxMenu>
+            <CtxMenu 
+                stateArgument={ctxMenuState} 
+                visible={ctxMenuVisible} 
+                onBookmark={handleBookmark}
+                bookmarkPosition={bookmarkPosition}
+            />
             <div>
             </div>
         
