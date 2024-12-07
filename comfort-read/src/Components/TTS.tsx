@@ -48,7 +48,7 @@ export function TTS({html}:{html:string}){
             >
                 TTS
             </button>
-
+                
             <select 
                 id="ttsOption" 
                 value={synthesis.voice} 
@@ -58,7 +58,7 @@ export function TTS({html}:{html:string}){
                     }
                 }}
             >
-                {voices.map((voice, index) => (
+                {voices && voices.map((voice, index) => (
                     <option key={index} value={index}>{voice.name}</option>
                 ))}
             </select>
