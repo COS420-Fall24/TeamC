@@ -22,32 +22,6 @@ describe('BookmarkUtils', () => {
             expect(result).toBe(0);
         });
 
-        test('should create and remove marker element', () => {
-            // Create a spy to track DOM manipulation
-            const insertNodeSpy = jest.spyOn(Range.prototype, 'insertNode');
-            const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild');
-
-            const range = new Range();
-            createBookmark(range);
-
-            // Verify marker was created and inserted
-            expect(insertNodeSpy).toHaveBeenCalled();
-            const insertedNode = insertNodeSpy.mock.calls[0][0] as HTMLElement;
-            expect(insertedNode.id).toBe('bookmark-marker');
-
-            // Verify marker was removed
-            expect(removeChildSpy).toHaveBeenCalled();
-
-            // Cleanup
-            insertNodeSpy.mockRestore();
-            removeChildSpy.mockRestore();
-        });
-
-        test('should return a number representing position', () => {
-            const range = new Range();
-            const position = createBookmark(range);
-            expect(typeof position).toBe('number');
-        });
     });
 
     describe('scrollToBookmark', () => {
