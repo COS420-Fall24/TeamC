@@ -20,6 +20,9 @@ import CtxMenu from "./CtxMenu";
 import BionicText from "./BionicText";
 import { TTS } from "./TTS";
 import { createBookmark, scrollToBookmark } from './BookmarkUtils';
+import { v4 as uuidv4 } from 'uuid';
+import Annotation, { AnnotationData } from './Annotation';
+
 
 export interface ctxMenuStateInterface {
     x : number;
@@ -34,6 +37,7 @@ function FormattedInput(){
     
     const [html, setHtml] = useState('');
     const [bookmarkPosition, setBookmarkPosition] = useState<number | null>(null);
+    const [annotations, setAnnotations] = useState<AnnotationData[]>([]);
 
     
     const handleRightClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -53,8 +57,14 @@ function FormattedInput(){
     }
     
     function onChange(e : ContentEditableEvent) {
-        setHtml(e.target.value);
+        const newContent = e.target.value;
+        setHtml(newContent);
         
+        // Check if any annotated text has been deleted
+        setAnnotations(prev => prev.filter(annotation => {
+            // If the annotated text isn't found in the content anymore, remove the annotation
+            return newContent.includes(annotation.text);
+        }));
     }  
 
     const handleBookmark = () => {
@@ -66,38 +76,82 @@ function FormattedInput(){
         }
     };
 
+    const handleAddAnnotation = () => {
+        const selection = window.getSelection();
+        if (selection && selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const selectedText = selection.toString();
+            
+            // Get position of selected text
+            const marker = document.createElement('span');
+            range.insertNode(marker);
+            const position = marker.offsetTop;
+            marker.parentNode?.removeChild(marker);
+
+            // Prompt for annotation comment
+            const comment = prompt('Enter your annotation:');
+            if (comment) {
+                const newAnnotation: AnnotationData = {
+                    id: uuidv4(),
+                    text: selectedText,
+                    comment,
+                    position
+                };
+                setAnnotations(prev => [...prev, newAnnotation]);
+            }
+        }
+    };
+
+    const handleDeleteAnnotation = (id: string) => {
+        setAnnotations(prev => prev.filter(a => a.id !== id));
+    };
+
+    const handleEditAnnotation = (id: string, newComment: string) => {
+        setAnnotations(prev => 
+            prev.map(a => a.id === id ? {...a, comment: newComment} : a)
+        );
+    };
+
     return (
-        <div>
-            
-        <div id = "wysiwyg-edtitor" ></div>
-            <EditorProvider>
-            
-            <div onBlur={() => {setExportContent(html);}} onMouseDown = {hideMenu} onContextMenu = {handleRightClick}>
-                <Editor data-testid = "editor" id = "editor" style = {{textAlign:"left"}} spellCheck = "false" value={html} onChange={onChange}>
-                    <Toolbar>
-                        <BtnUndo/>
-                        <BtnRedo/>
-                        <BtnBold />
-                        <BtnItalic />
+        <div style={{ position: 'relative' }}>
+            <div className="editor-container" style={{ width: 'calc(100% - 250px)' }}>
+                <EditorProvider>
+                    <div onBlur={() => {setExportContent(html);}} onMouseDown = {hideMenu} onContextMenu = {handleRightClick}>
+                        <Editor data-testid = "editor" id = "editor" style = {{textAlign:"left"}} spellCheck = "false" value={html} onChange={onChange}>
+                            <Toolbar>
+                                <BtnUndo/>
+                                <BtnRedo/>
+                                <BtnBold />
+                                <BtnItalic />
 
-                        {/*Call BionicText component*/}
-                        <BionicText html={html} setHtml={setHtml} />
-                        <TTS html={html}/>
-                        
-                    </Toolbar>
-                </Editor>
+                                {/*Call BionicText component*/}
+                                <BionicText html={html} setHtml={setHtml} />
+                                <TTS html={html}/>
+                                
+                            </Toolbar>
+                        </Editor>
+                    </div>
+                    <CtxMenu 
+                        stateArgument={ctxMenuState} 
+                        visible={ctxMenuVisible} 
+                        onBookmark={handleBookmark}
+                        bookmarkPosition={bookmarkPosition}
+                        onAddAnnotation={handleAddAnnotation}
+                    />
+                </EditorProvider>
             </div>
-            <CtxMenu 
-                stateArgument={ctxMenuState} 
-                visible={ctxMenuVisible} 
-                onBookmark={handleBookmark}
-                bookmarkPosition={bookmarkPosition}
-            />
-            <div>
-            </div>
-        
-        </EditorProvider>
 
+            {/* Annotations container */}
+            <div className="annotations-container">
+                {annotations.map(annotation => (
+                    <Annotation
+                        key={annotation.id}
+                        annotation={annotation}
+                        onDelete={handleDeleteAnnotation}
+                        onEdit={handleEditAnnotation}
+                    />
+                ))}
+            </div>
         </div>
     );
 }

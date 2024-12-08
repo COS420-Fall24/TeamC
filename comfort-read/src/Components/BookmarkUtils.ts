@@ -19,6 +19,7 @@ export function createBookmark(range: Range): number {
     return offset;
 }
 
+// Function to scroll to a bookmark
 export function scrollToBookmark(position: number | null) {
     if (position === null) return;
     

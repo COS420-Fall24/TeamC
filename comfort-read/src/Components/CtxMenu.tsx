@@ -25,9 +25,10 @@ interface CtxMenuProps {
     visible: boolean;
     onBookmark: () => void;
     bookmarkPosition: number | null;
+    onAddAnnotation: () => void;
 }
 
-function CtxMenu({stateArgument: sharedState, visible, onBookmark, bookmarkPosition}: CtxMenuProps) {
+function CtxMenu({stateArgument: sharedState, visible, onBookmark, bookmarkPosition, onAddAnnotation}: CtxMenuProps) {
     
     const editorState = useEditorState();
     const { $el, $selection } = editorState;
@@ -101,6 +102,14 @@ function CtxMenu({stateArgument: sharedState, visible, onBookmark, bookmarkPosit
                     Go to Bookmark
                 </Button>
             )}
+            
+            <Button 
+                variant="info" 
+                onClick={onAddAnnotation}
+                style={{marginRight: '5px'}}
+            >
+                Add Annotation
+            </Button>
             
         </div>
     </div>
