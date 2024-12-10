@@ -106,7 +106,11 @@ function FormattedInput(){
                     </Toolbar>
                 </Editor>
             </div>
-            <CtxMenu stateArgument={ctxMenuState} visible = {ctxMenuVisible}></CtxMenu>
+            <CtxMenu stateArgument={ctxMenuState} visible={ctxMenuVisible} onBookmark={function (): void {
+                    throw new Error("Function not implemented.");
+                } } bookmarkPosition={null} onAddAnnotation={function (): void {
+                    throw new Error("Function not implemented.");
+                } }></CtxMenu>
             <div>
             {/*<button onClick={handleExportTxt}>Export as TXT</button>
             <button onClick={handleExportHtml}>Export as HTML</button>*/}
