@@ -5,39 +5,33 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Cache npm dependencies
-      uses: actions/cache@v2
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-${{ matrix.node-version }}-
-    - name: Install dependencies
-      run: npm ci
-      working-directory: TeamC/comfort-read
-    - name: build project
-      run: npm run build --if-present
-      working-directory: TeamC/comfort-read
-    - name: run tests
-      run: npm test -- --watchAll=false 
-      working-directory: TeamC/comfort-read
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: |
+          cd code
+          npm install
+          npm install react-router-dom
+
+      - name: Run build
+        run: |
+          cd code
+          npm run build
+          npm run test
