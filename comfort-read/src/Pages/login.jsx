@@ -13,16 +13,16 @@ export function Login(){
         
         <>
 
-    <div id="App" class = {theme} data-testid="App">
+    <div id="App" className = {theme} data-testid="App">
         <Sidebar></Sidebar>
 
         <div id = "login_container" data-testid = "login-form">
             <form>
-                <label for="username">Username: </label>
+                <label htmlFor="username">Username: </label>
                 
                 <input type="text" id="username" name="username" placeholder = "Username" data-testid = "username_field"></input>
                 <br></br>
-                <label for="password">Password: </label> 
+                <label htmlFor="password">Password: </label> 
                 <input type="password" id="password" name="password" placeholder = "Password" data-testid = "password_field"></input>
                 <br></br>
                 <input id = "login_button" type="submit" value="Login"  data-testid = "login_submit_button"></input>

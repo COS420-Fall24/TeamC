@@ -18,25 +18,33 @@ import { FocusModeContext } from "../Context/FocusModeContext";
 import Sidebar from "./Sidebar";
 
 import {ctxMenuStateInterface} from "./FormattedInput";
+import { createBookmark, scrollToBookmark } from './BookmarkUtils';
 
-function CtxMenu({stateArgument: sharedState, visible} : {stateArgument : ctxMenuStateInterface; visible : boolean}){
+interface CtxMenuProps {
+    stateArgument: ctxMenuStateInterface;
+    visible: boolean;
+    onBookmark: () => void;
+    bookmarkPosition: number | null;
+    onAddAnnotation: () => void;
+}
+
+function CtxMenu({stateArgument: sharedState, visible, onBookmark, bookmarkPosition, onAddAnnotation}: CtxMenuProps) {
     
     const editorState = useEditorState();
     const { $el, $selection } = editorState;
     
-    if (document.activeElement !== $el) {
-        $el?.focus();
-    }
-
     function setColor(color:string) {
+        $el?.focus();
         document.execCommand('forecolor',false,color); 
     }
 
     function setFontSize(size : number){
+        $el?.focus();
         document.execCommand('fontSize',false,size.toString());
     }
 
     function highlight(){
+        $el?.focus();
         document.execCommand('backcolor',false,"yellow");
     }
 
@@ -77,6 +85,31 @@ function CtxMenu({stateArgument: sharedState, visible} : {stateArgument : ctxMen
             </Dropdown>
 
             <Button variant = "warning" onClick={highlight}>Highlight</Button>
+            
+            <Button 
+                variant="secondary" 
+                onClick={onBookmark}
+                style={{marginRight: '5px'}}
+            >
+                Set Bookmark
+            </Button>
+
+            {bookmarkPosition !== null && (
+                <Button 
+                    variant="secondary" 
+                    onClick={() => scrollToBookmark(bookmarkPosition)}
+                >
+                    Go to Bookmark
+                </Button>
+            )}
+            
+            <Button 
+                variant="info" 
+                onClick={onAddAnnotation}
+                style={{marginRight: '5px'}}
+            >
+                Add Annotation
+            </Button>
             
         </div>
     </div>

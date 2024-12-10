@@ -10,13 +10,71 @@ import { ExportFileProvider } from "../Context/ExportFileContext";
 import { BrowserRouter } from 'react-router-dom'
 import {HashRouter as Router, Routes, Route} from "react-router-dom";
 import FormattedInput from "./FormattedInput";
+import '@testing-library/jest-dom';
+
 
 document.execCommand = jest.fn()
 
-
 describe("Text size and color can be changed", () => {
-    
-    test("Font size can be changed", async () => {
+ 
+    afterEach(() => {
+        jest.clearAllMocks();
+        jest.restoreAllMocks()
+    });
+
+    test('renders correctly', () => {
+        render(
+            
+            <DarkModeProvider>
+                <FocusProvider>
+                    <ExportFileProvider>               
+                    <Router>
+                     <Routes>
+                    <Route path = "/" element = {<FormattedInput/>}/>
+                     </Routes>
+                     </Router>
+                    </ExportFileProvider>
+                </FocusProvider>
+            </DarkModeProvider>
+            );
+        expect(screen.getByTestId('editor')).toBeInTheDocument();
+    });
+
+    test('font size dropdown works correctly', async () => {
+        render(
+            
+            <DarkModeProvider>
+                <FocusProvider>
+                    <ExportFileProvider>               
+                    <Router>
+                     <Routes>
+                    <Route path = "/" element = {<FormattedInput/>}/>
+                     </Routes>
+                     </Router>
+                    </ExportFileProvider>
+                </FocusProvider>
+            </DarkModeProvider>
+            );
+
+        const editor = screen.getByTestId("editor");
+        
+        await userEvent.type(editor, 'Hello, world!');
+        expect(editor).toBeInTheDocument();
+        expect(screen.getByText("Hello, world!")).toBeInTheDocument();
+        userEvent.dblClick(editor);
+
+        
+        fireEvent.contextMenu(editor);
+        
+        fireEvent.click(screen.getByText('Size')); // Open the dropdown
+
+        const sizeOption = screen.getByText('3');
+        fireEvent.click(sizeOption);
+
+        expect(document.execCommand).toHaveBeenCalledWith('fontSize', false, '3');
+    });
+
+    test('color dropdown works correctly', async () => {
         render(
             
             <DarkModeProvider>
@@ -39,84 +97,68 @@ describe("Text size and color can be changed", () => {
         expect(screen.getByText("Hello, world!")).toBeInTheDocument();
         userEvent.dblClick(editor);
         fireEvent.contextMenu(editor);
-        
-        const sizeDropdown = screen.getByText("Size");
 
-        expect(sizeDropdown).toBeInTheDocument();
-        fireEvent.click(sizeDropdown);
+        fireEvent.click(screen.getByText('Color')); // Open the dropdown
 
-        const sizeOption = screen.getByText("7");
+        const colorOption = screen.getByText('Green');
+        fireEvent.click(colorOption);
 
-        expect(sizeOption).toBeInTheDocument();
-        fireEvent.click(sizeOption);
-
-        
+        expect(document.execCommand).toHaveBeenCalledWith('forecolor', false, 'Green');
     });
 
-    test("Font color can be changed", async () => {
+    test('highlight button works correctly', async () => {
         render(
             
-        <DarkModeProvider>
-            <FocusProvider>
-                <ExportFileProvider>               
-                <Router>
-                 <Routes>
-                <Route path = "/" element = {<FormattedInput/>}/>
-                 </Routes>
-                 </Router>
-                </ExportFileProvider>
-            </FocusProvider>
-        </DarkModeProvider>
-        );
-
+            <DarkModeProvider>
+                <FocusProvider>
+                    <ExportFileProvider>               
+                    <Router>
+                     <Routes>
+                    <Route path = "/" element = {<FormattedInput/>}/>
+                     </Routes>
+                     </Router>
+                    </ExportFileProvider>
+                </FocusProvider>
+            </DarkModeProvider>
+            );
         const editor = screen.getByTestId("editor");
         
         await userEvent.type(editor, 'Hello, world!');
         expect(editor).toBeInTheDocument();
         expect(screen.getByText("Hello, world!")).toBeInTheDocument();
+        
         userEvent.dblClick(editor);
+       
         fireEvent.contextMenu(editor);
         
-        const sizeDropdown = screen.getByText("Color");
-
-        expect(sizeDropdown).toBeInTheDocument();
-        fireEvent.click(sizeDropdown);
-
-        const colorOption = screen.getByText("Red");
-
-        expect(colorOption).toBeInTheDocument();
-        fireEvent.click(colorOption);   
-    });
-
-    test("Font can be highlighted", async () => {
-        render(
-            
-        <DarkModeProvider>
-            <FocusProvider>
-                <ExportFileProvider>               
-                <Router>
-                 <Routes>
-                <Route path = "/" element = {<FormattedInput/>}/>
-                 </Routes>
-                 </Router>
-                </ExportFileProvider>
-            </FocusProvider>
-        </DarkModeProvider>
-        );
         
-        const editor = screen.getByTestId("editor");
-        
-        await userEvent.type(editor, 'Hello, world!');
-        expect(editor).toBeInTheDocument();
-        expect(screen.getByText("Hello, world!")).toBeInTheDocument();
-        userEvent.dblClick(editor);
-        fireEvent.contextMenu(editor);
-        
-        const highlightButton = screen.getByText("Highlight");
-
-        expect(highlightButton).toBeInTheDocument();
+        const highlightButton = screen.getByText('Highlight');
         fireEvent.click(highlightButton);
 
-        
+        expect(document.execCommand).toHaveBeenCalledWith('backcolor', false, 'yellow');
     });
+    
+    test('Text can be read with TTS', async () => {
+        render(
+            
+            <DarkModeProvider>
+                <FocusProvider>
+                    <ExportFileProvider>               
+                    <Router>
+                     <Routes>
+                    <Route path = "/" element = {<FormattedInput/>}/>
+                     </Routes>
+                     </Router>
+                    </ExportFileProvider>
+                </FocusProvider>
+            </DarkModeProvider>
+            );
+        const tts = screen.getByTestId("tts");
+        expect(tts).toBeInTheDocument();
+        await userEvent.click(tts);
+
+        //expect(window.speechSynthesis.speak).toBeCalled();
+
+
+        });
 });
