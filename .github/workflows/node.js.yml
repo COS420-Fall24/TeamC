@@ -32,6 +32,6 @@ jobs:
 
       - name: Run build
         run: |
-          cd code
+          cd comfort-read
           npm run build
           npm run test
