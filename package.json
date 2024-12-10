@@ -1,6 +1,13 @@
 {
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "axios": "^1.7.9",
+    "cors": "^2.8.5",
     "react": "^18.3.1",
     "react-simple-wysiwyg": "^3.2.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "concurrently": "^9.1.0"
   }
 }

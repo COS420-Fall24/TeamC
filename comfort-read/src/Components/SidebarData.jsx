@@ -30,7 +30,5 @@ export const SidebarData = [
             {name: "Export as TXT", onClick: "exportTxt"},
         ],
     },*/
-    {
-        name: "Summarize"
-    }
+    
 ];

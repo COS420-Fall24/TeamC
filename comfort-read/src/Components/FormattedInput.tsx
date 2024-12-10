@@ -17,6 +17,8 @@ import { FocusModeContext } from "../Context/FocusModeContext";
 import Sidebar from "./Sidebar";
 import {ExportFileContext} from "../Context/ExportFileContext";
 import CtxMenu from "./CtxMenu";
+import {summarizeText} from"../API/gemini";
+import{useSummarize} from "../Context/SummarizeContext"
 
 export interface ctxMenuStateInterface {
     x : number;
@@ -28,6 +30,10 @@ function FormattedInput(){
     const [ctxMenuVisible, setCtxMenuVisible] = useState(false);
     const [ctxMenuState, setCtxMenuState] = useState<ctxMenuStateInterface>({ x: 0, y: 0, setVisible:setCtxMenuVisible});
     const{exportAsTxt, exportAsHtml, exportContent,setExportContent}=useContext(ExportFileContext);
+    const[summary,setSummary]=useState("");
+    const[loading,setLoading]=useState(false);//loading state
+    const[error,setError]=useState<string|null>(null);//error state
+
 
     const [html, setHtml] = useState('');
 
@@ -58,8 +64,34 @@ function FormattedInput(){
     const handleExportHtml=()=>{
         exportAsHtml(html);
     };
+    const handleSummarize=async()=>{
+        if (!html.trim()){
+            setError("Provide text to Summarize.");
+            return;
+        }
+        setLoading(true);
+        setError(null);
+        try{
+            const response=await fetch("https://localhost:3001/summarize",{
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({text:html})
+            })
+            if(!response.ok){
+                throw new Error("Failed to fetch summary.");
+            }
+        }catch(err){
+            console.error("Error Summarizing",err);
+            setError("Failure to Summarize Text. Try again.");
+        }finally{
+            setLoading(false);
+        }
+    };
+    
     return (
-        <div>
+    <div>
             
         <div id = "wysiwyg-edtitor" ></div>
             <EditorProvider>
@@ -81,8 +113,9 @@ function FormattedInput(){
             </div>
         
         </EditorProvider>
-
+        
         </div>
+        
     );
 }
 

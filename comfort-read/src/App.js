@@ -8,23 +8,28 @@ import { DarkModeProvider } from './Context/DarkModeContext';
 import { FocusProvider } from './Context/FocusModeContext';
 import { ExportFileProvider } from './Context/ExportFileContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {SummarizeProvider} from './Context/SummarizeContext';
+import SummarizeText from './Components/SummarizeText';
 function App() {
   return (
-    <div>    
+    <div>  
       <DarkModeProvider>
-      <FocusProvider>
-      <ExportFileProvider>
-      <Router>
-        <Routes>
-          <Route path = "/" element = {<Home/>}/>
-          <Route path = "/login" element = {<Login/>}/>
-        </Routes>
-      </Router>
-      </ExportFileProvider>
-      </FocusProvider>
+        <FocusProvider>
+      <   ExportFileProvider>
+            <SummarizeProvider>
+              <Router>
+                <Routes>
+                  <Route path = "/" element = {<Home/>}/>
+                  <Route path = "/login" element = {<Login/>}/>
+              </Routes>
+              </Router>
+            </SummarizeProvider>
+          </ExportFileProvider>
+        </FocusProvider>
       </DarkModeProvider>
-      </div>
-
+      
+      
+    </div>  
   );
 }
 

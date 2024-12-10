@@ -7,12 +7,14 @@ import { FocusModeContext } from "../Context/FocusModeContext";
 import {ExportFileContext} from "../Context/ExportFileContext";
 import {Modal, Button} from "react-bootstrap";
 import { exportAsHtml } from "../Context/exportFile";
+import{useSummarize} from "../Context/SummarizeContext";
 
 
 function Sidebar() {
     const { toggleDarkMode } = useContext(DarkModeContext);
     const { isFocusMode, toggleFocusMode } = useContext(FocusModeContext);
     const { exportAsTxt, exportAsHtml, exportContent} = useContext(ExportFileContext);
+    const {handleSummarize}=useSummarize();
 
     const [showExportModal,setShowExportModal]=useState(false);
     const handleExport = (action) =>{
@@ -50,15 +52,19 @@ function Sidebar() {
                         <div id="name">{val.name}</div>
                     </li>
                     </Link>
+                    
                 )
             })}
             {!isFocusMode && <>
             <li key = "mode" className = "row">
                 <div id = "name" onClick={toggleDarkMode}>Toggle Dark Mode</div>
             </li>
+            <li key="summarize" className="row">
+                <div id="summarize" onClick={handleSummarize}>Summarize</div>
+            </li>
 
             <li key = "export" className = "row">
-                <div id = "export" onClick={() =>{handleExport("export")}}>Import/Export</div>
+                <div id = "export" onClick={() =>{handleExport("export")}}>Export</div>
             </li></>}
             </ul>
             <Modal show={showExportModal} onHide={()=> setShowExportModal (false)}>
@@ -75,5 +81,6 @@ function Sidebar() {
             </Modal>
         </div>
     );
+    
 }
 export default Sidebar;

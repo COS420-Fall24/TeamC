@@ -6,7 +6,7 @@ import{DarkModeContext} from "../Context/DarkModeContext";
 import { FocusModeContext , FocusProvider} from "../Context/FocusModeContext";
 import Sidebar from "./Sidebar";
 import { isFocusable } from "@testing-library/user-event/dist/utils";
-import { ExportFileProvider } from "../Context/ExportFileContext";
+import { ExportFileContext, ExportFileProvider } from "../Context/ExportFileContext";
 
 jest.mock("./SidebarData", () => ({ //mock sidebar w/ items
   SidebarData:[
@@ -123,3 +123,36 @@ describe("sidebar component", () => {//make sure everyhting renders
 
   });
 });
+  //Export Tests
+  const mockExportAsTxt = jest.fn(); //mocking expot functions
+  const mockExportAsHtml = jest.fn();
+  describe("Test for Export Feature", ()=>{
+    const renderWithContext=(component:React.ReactNode) =>{
+      return render (
+        <ExportFileContext.Provider       //mocking context provider
+          value={{exportAsTxt: mockExportAsTxt, exportAsHtml: mockExportAsHtml}}
+          > {component}
+          </ExportFileContext.Provider>
+      );
+    };
+  test ("render export dropdown", ()=>{
+    renderWithContext(<Sidebar/>);        //render the sidebar
+    const dropdownToggle= screen.getByText("Choose Format"); //checking if the dropdown is rendered
+    expect(dropdownToggle).toBeInTheDocument();
+    fireEvent.click(dropdownToggle);            //sim click of user dropdown
+    expect(screen.getByText("Export as TXT")).toBeInTheDocument();
+    expect(screen.getByText("Export as HTML")).toBeInTheDocument(); //check if the dropdown options are visible
+  });
+  test("calls exportAsTxt when Export as TXT is clicked", ()=>{
+    renderWithContext(<Sidebar/>);
+    fireEvent.click(screen.getByText("Choose Format"));    //opens dropwdown
+    fireEvent.click(screen.getByText("Export as txt"));    //click export as txt
+    expect(mockExportAsTxt).toHaveBeenCalledTimes(1);      //check if the exportAsTxt fun. was called
+  });
+  test("call exportAsHtml when Export as HTML is clicked", () =>{
+    renderWithContext(<Sidebar/>);
+    fireEvent.click(screen.getByText("Choose Format"));   //opens dropwdown
+    fireEvent.click(screen.getByText("Export as html"));  //click export as html
+    expect(mockExportAsHtml).toHaveBeenCalledTimes(1);    //check if the exportAsTxt fun. was called
+  });
+  });
