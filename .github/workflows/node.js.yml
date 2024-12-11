@@ -26,12 +26,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd comfort-read
+          cd TeamC
           npm install
           npm install react-router-dom
 
       - name: Run build
         run: |
-          cd comfort-read
+          cd TeamC
           npm run build
           npm run test
